@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <vector>
-//Solution URI 
+//O Quão Fácil é...
 //Problem id: 1243
 //String
 //Complexity: O(N) where N is the size of the title
