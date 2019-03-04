@@ -4,8 +4,10 @@
 #include <set>
 #include <utility>
 #include <string.h>
-//2646
-
+//Secret Chamber at Mount Rushmore
+//Problem id: 2646
+//Iniciante
+//Complexity: O(M) where M is the amount of words you must compare
 std::map<std::pair<char, int>, char> map;
 std::map<char, int> counter;
 
