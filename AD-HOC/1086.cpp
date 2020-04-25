@@ -3,7 +3,9 @@
 #include <math.h>
 #include <map>
 #include <stack>
-
+//////////////////////////////////////////
+// 5% WA /////////////////////////////////
+//////////////////////////////////////////
 using namespace std;
 
 int N, M;
@@ -50,9 +52,6 @@ int search(int length, int amount) {
 
 	while (!used.empty()) {
 		value = used.top();
-		if (amount == 0) {
-			printf("*%d\n", value);
-		}
 		used.pop();
 		count[value]++;
 	}
@@ -91,11 +90,10 @@ int main() {
 		}
 		
 		proportion = ceil(N / ((double)L/100));
-		printf("%lf -> %d\n", N / ((double)L/100), proportion);
 
 		int v1 = search(M, proportion);
+
 		proportion = ceil(M / ((double)L / 100));
-		printf("%lf -> %d\n", M / ((double)L/100), proportion);
 
 		int v2 = search(N, proportion);
 		
