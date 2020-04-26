@@ -25,19 +25,15 @@ int main() {
 		int wins;
 
 		while (H > 0) {
-			// printf("%d -> ", H);
 			if (ta <= tb) {
-				// printf("Andre hit (-%d) -> ", At);
 				wins = A;
 				H -= At;
 				ta += Ad;
 			} else {
-				// printf("Beto hit (-%d) -> ", Bt);
 				wins = B;
 				H -= Bt;
 				tb += Bd;
 			}
-			// printf("%d\n", H);
 		}
 
 		if (wins == A) {
