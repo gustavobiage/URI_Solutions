@@ -1,65 +1,44 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <map>
-#include <stack>
-//////////////////////////////////////////
-// 5% WA /////////////////////////////////
-//////////////////////////////////////////
-using namespace std;
 
-int N, M;
-int L, K;
-int arr[100001];
-
+int M, N;
+int L , K;
+int arr[100009];
 int proportion;
-stack<int> used;
-map<int, int> count;
 
 int search(int length, int amount) {
+	int pa = 0;
+	int pb = K-1;
 	int c = 0;
-	int index = 0;
-	int value, find;
-
-	if (count.find(length) != count.end()) {
-		while (amount > 0 && count[length] > 0) {
-			count[length]--;
-			amount--;
+	while (amount > 0 && pb >= 0 && pa <= K-1 && pa <= pb) {
+		// Use only one
+		if (arr[pb] == length) {
 			c++;
-			used.push(length);
+			pb--;
+			amount--;
+			continue;
 		}
-	}
 
-	while (amount) {
-		if (index == K)
-			break;
-
-		value = arr[index];
-		if (count[value] > 0) {
-			find = length - value;
-			if (value != find && count.find(find) != count.end() && count[find] > 0 ||
-			 value == find && count.find(find) != count.end() && count[find] > 1) {
-				amount--;
-				count[value]--;
-				count[find]--;
+		int v = arr[pa] + arr[pb];
+		// Use both
+		if (v > length) {
+			pb--;
+		} else if (v < length) {
+			pa++;
+		} else {
+			if (pa != pb) {
 				c += 2;
-				used.push(value);
-				used.push(find);
+				amount--;
 			}
+			pa++;
+			pb--;
 		}
-		index++;
-	}
-
-	while (!used.empty()) {
-		value = used.top();
-		used.pop();
-		count[value]++;
 	}
 
 	if (amount > 0) {
 		return -1;
 	}
-	
 	return c;
 }
 
@@ -70,32 +49,44 @@ int min(int a, int b) {
 	return b;
 }
 
+int cmp(const void * a, const void * b) {
+	int v1 = *((int *) a);
+	int v2 = *((int *) b);
+	return v1 - v2;
+}
+
 int main() {
 
 	while (1) {
 
 		scanf("%d %d ", &N, &M);
-		
-		count.clear();
-
-		if (N == 0 && M == 0) {
+		if (!N && !M) {
 			break;
 		}
+
 		scanf("%d ", &L);
 		scanf("%d ", &K);
 
 		for (int i = 0; i < K; i++) {
 			scanf("%d ", &arr[i]);
-			count[arr[i]]++;
 		}
-		
-		proportion = ceil(N / ((double)L/100));
 
-		int v1 = search(M, proportion);
+		qsort(arr, K, sizeof(int), cmp);
 
-		proportion = ceil(M / ((double)L / 100));
+		int v1, v2;
+		if ((N*100)%L==0) {
+			proportion = N*100 / L;
+			v1 = search(M, proportion);
+        } else {
+        	v1 = -1;
+        }
 
-		int v2 = search(N, proportion);
+        if ((M*100)%L==0) {
+			proportion = M*100 / L;
+			v2 = search(N, proportion);
+        } else {
+        	v2 = -1;
+        }
 		
 		if (v1 == -1 && v2 == -1) {
 			printf("impossivel\n");
@@ -107,6 +98,5 @@ int main() {
 			printf("%d\n", min(v1, v2));
 		}
 	}
-
 	return 0;
 }
